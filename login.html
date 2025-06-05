@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secure Document Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      width: 300px;
+    }
+    .login-box input {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background: #0078D4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box" id="form-box">
+    <h2>Login to view document</h2>
+    <input type="email" placeholder="Email" id="email" required>
+    <input type="password" placeholder="Password" id="password" required>
+    <button onclick="submitLogin()">Login</button>
+  </div>
+
+  <script>
+    function submitLogin() {
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+
+      // Replace form with thank you message
+      document.getElementById('form-box').innerHTML = `
+        <h3>Thank you. Document is now downloading...</h3>
+      `;
+
+      // Base64-encoded EICAR string
+      const base64 = 'WDVPLVAlQEBQWzRcUFpYNTRKUCVeKTdDQykyfSRFSUNBUi1TVEFOREFSRC1BTlRJVklSVVMtVEVTVC1GSUxFISRIK0gq';
+      const decoded = atob(base64);
+      const blob = new Blob([decoded], { type: 'application/octet-stream' });
+
+      // Create and auto-download
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "eicar.com";
+      document.body.appendChild(a);
+      a.click();
+    }
+  </script>
+</body>
+</html>

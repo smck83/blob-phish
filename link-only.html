@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secure File Download</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    a {
+      font-size: 18px;
+      padding: 12px 24px;
+      background: #0078D4;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    a:hover {
+      background: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <a href="#" id="download-link">Download Secure Document</a>
+
+  <script>
+    document.getElementById("download-link").addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // Base64-encoded EICAR string
+      const base64 = 'WDVPLVAlQEBQWzRcUFpYNTRKUCVeKTdDQykyfSRFSUNBUi1TVEFOREFSRC1BTlRJVklSVVMtVEVTVC1GSUxFISRIK0gq';
+      const decoded = atob(base64);
+      const blob = new Blob([decoded], { type: 'application/octet-stream' });
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "eicar.com";
+      document.body.appendChild(a);
+      a.click();
+    });
+  </script>
+</body>
+</html>
